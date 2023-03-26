@@ -42,16 +42,17 @@ def almacenar_tweet( status, username):
 
 def TweetExtractorMovies(movie):
     print("===== Captador de tweets =====")
+    moviesample = movie.split()[0]
     # Get an API item using tweepy
     auth = get_auth()  # Retrieve an auth object using the function 'get_auth' above
     api = tweepy.API(auth)  # Build an API object.
 
     if os.path.isfile(
-                    'funcionalities//Tweets//' + movie + str(date.today()) + '.csv'):
+                    'funcionalities//Tweets//' + moviesample + str(date.today()) + '.csv'):
                print('Preparado el fichero')
     else:
                 print('El archivo no existe.')
-                csvFile = open('funcionalities//Tweets//' + movie + str(date.today()) +'.csv', 'w', encoding= 'utf-8',  newline='')
+                csvFile = open('funcionalities//Tweets//' + moviesample + str(date.today()) +'.csv', 'w', encoding= 'utf-8', newline='')
                 csvWriter = csv.writer(csvFile, delimiter=';')
                 cabecera=['Fecha_creación','Id','Texto','Fuente','Truncado'
                     ,'Respuesta_al_tweet','Respuesta_al_usuario_id'
@@ -65,9 +66,13 @@ def TweetExtractorMovies(movie):
     
     end_date = date.today()
 
-    for tweet in tweepy.Cursor(api.search_tweets, q=movie + movie, lang='en', until= end_date ).items():
+    count = 0
+    for tweet in tweepy.Cursor(api.search_tweets, q=movie, lang='en', until= end_date).items():
                 print(tweet.created_at, tweet.text)
-                almacenar_tweet(tweet, movie)
+                almacenar_tweet(tweet, moviesample)
+                if count == 2000:
+                    break
+                count = count +1
 
 
     # End
