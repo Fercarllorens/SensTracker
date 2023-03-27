@@ -7,6 +7,8 @@ import os.path
 from funcionalities.tweetReader import readTweets
 from funcionalities.mapGenerator import createMap
 from funcionalities.generateWC import wordcloud
+import re
+import requests
 
 
 
@@ -76,6 +78,17 @@ def analyseTweetsPerDay(username, df):
     figaxSentimentDay = axSentimentDay.get_figure()
     figaxSentimentDay.savefig('funcionalities//GraficoSAPorDia//' +username +str(date.today()) + '.png')
 
+def camel_case_split(identifier):
+    matches = re.finditer('.+?(?:(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|$)', identifier)
+    list = [m.group(0) for m in matches]
+    final = ""
+    for word in list:
+        if final != "":
+            final = final + " " + word
+        else:
+            final = word
+    return final
+
 def analyseprofile(username):
 
     check_file = os.path.isfile('funcionalities//Tweets//' + username + str(date.today()) + '.csv')
@@ -94,6 +107,20 @@ def analyseprofile(username):
     check_file = os.path.isfile('funcionalities//WordCloud//' + username + str(date.today()) + '.png')
     if not check_file:
         wordcloud(username, df)
+    
+    name = camel_case_split(username)
+    response = requests.get("https://newsapi.org/v2/top-headlines?apiKey=037229ddf6df4db58f835b96158bf93e&q=" + name)
+    articles = response.json().get('articles')
+    listNews = []
+    count = 0
+    for article in articles:
+        title = article['title']
+        url = article['url']
+        listNews.append([title,url])
+        count = count+1
+        if count == 4:
+            break
+    return listNews
     
 
 
