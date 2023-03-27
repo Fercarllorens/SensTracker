@@ -103,7 +103,9 @@ def versusUsers(username1, username2, df1, df2):
     plt.title(username1 + ' vs ' + username2)
     plt.xticks(r, days, rotation = 20)
     plt.legend()
-    plt.savefig('funcionalities//GraficoSAVersus//' + username1 + '-' + username2 + str(date.today()) + '.png')
+    fileName = 'funcionalities//GraficoSAVersus//' + username1 + '-' + username2 + str(date.today()) + '.png'
+    plt.savefig(fileName)
+    return fileName
 
 
 def vsprofiles(username1, username2):
@@ -126,5 +128,8 @@ def vsprofiles(username1, username2):
     dfUser2 = pd.DataFrame(tweetsUser2, columns=header)
     
     check_file = os.path.isfile('funcionalities//GraficoSAVersus//' + username1 + '-' + username2 + str(date.today()) + '.png') 
+    fileName = ""
     if not check_file:
-        versusUsers(username1, username2, dfUser1, dfUser2)
+        fileName = versusUsers(username1, username2, dfUser1, dfUser2)
+
+    return fileName

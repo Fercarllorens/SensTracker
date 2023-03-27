@@ -79,7 +79,7 @@ def TweetExtractor(username):
     # Get an API item using tweepy
     auth = get_auth()  # Retrieve an auth object using the function 'get_auth' above
     api = tweepy.API(auth)  # Build an API object.
-
+    fileName = 'funcionalities//Tweets//' + username + str(date.today()) +'.csv'
     if os.path.isfile(
                     'funcionalities//Tweets//' + username + str(date.today()) + '.csv'):
                print('Preparado el fichero')
@@ -106,3 +106,4 @@ def TweetExtractor(username):
 
     # End
     print("Terminado")
+    return fileName
