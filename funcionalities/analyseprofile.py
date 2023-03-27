@@ -90,7 +90,8 @@ def camel_case_split(identifier):
     return final
 
 def analyseprofile(username):
-
+    username = username.lower()
+    
     check_file = os.path.isfile('funcionalities//Tweets//' + username + str(date.today()) + '.csv')
     if not check_file:
         TweetExtractor(username)
@@ -120,9 +121,14 @@ def analyseprofile(username):
         count = count+1
         if count == 4:
             break
-    return listNews
+    fileName = username + str(date.today()) + '.png'
+    files = []
+    files.append("funcionalities//Maps//" + fileName)
+    files.append("funcionalities//GraficoSAPorTweet//" + fileName)
+    files.append("funcionalities//WordCloud//" + fileName)
+    return files
     
-
+analyseprofile("joebiden")
 
 
 

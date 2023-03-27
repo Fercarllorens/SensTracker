@@ -50,24 +50,33 @@ def analyseTweetsMovie(movie, df):
 
 
 def analyseMovie(movie):
+    movie = movie.lower()
+    files = []
     moviesample = movie.split()[0]
-    check_file = os.path.isfile('funcionalities//Tweets//' + moviesample + str(date.today()) + '.csv')
+    fileName = moviesample + str(date.today())
+    check_file = os.path.isfile('funcionalities//Tweets//' + fileName + '.csv')
     if not check_file:
         TweetExtractorMovies(movie)
     tweets = readTweets(moviesample)
     header = tweets[0]
     tweets.pop(0)
     df = pd.DataFrame(tweets, columns=header)
-    check_file = os.path.isfile('funcionalities//Maps//' + moviesample + str(date.today()) + '.png')
+    check_file = os.path.isfile('funcionalities//Maps//' + fileName + '.png')
     if not check_file:
         createMap(moviesample, df)
-    check_file = os.path.isfile('funcionalities//WordCloud//' + moviesample + str(date.today()) + '.png')
+    check_file = os.path.isfile('funcionalities//WordCloud//' + fileName + '.png')
     if not check_file:
         wordcloud(movie, df)
-    check_file = os.path.isfile('funcionalities//GraficoSAPorDia//' + moviesample + str(date.today()) + '.png')
+    check_file = os.path.isfile('funcionalities//GraficoSAPorDia//' + fileName + '.png')
     if not check_file:
         analyseTweetsMovie(movie, df)
     
+    #Añadimos los ficheros necesarios
+    fileName = fileName + ".png"
+    files.append('funcionalities//Maps//' + fileName)
+    files.append('funcionalities//WordCloud//' + fileName)
+    files.append('funcionalities//GraficoSAPorDia//' + fileName)
+
     movie = movie.replace(' ', '+')
     response = requests.get("https://api.themoviedb.org/3/search/movie?api_key=d6c4f64b76f81594ea569e6d4b887fa4&query=" + movie)
     idMovie = response.json().get('results')[0].get('id')
@@ -76,6 +85,7 @@ def analyseMovie(movie):
     if whereToWatchLink is None:
         whereToWatchLink = response.json().get('results').get('US')
     whereToWatchLink = whereToWatchLink.get('link')
-    return whereToWatchLink
+    #return whereToWatchLink
 
-
+    files.append(whereToWatchLink)
+    return files

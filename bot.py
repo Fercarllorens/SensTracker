@@ -1,18 +1,9 @@
 import discord
-import responses
 from discord.ext import commands
 from funcionalities.generateWC import wordcloudsimple
 from funcionalities.vsprofiles import vsprofiles
-
-
-# Send messages
-async def send_message(message, user_message, is_private):
-    try:
-        response = responses.handle_response(user_message)
-        await message.author.send(response) if is_private else await message.channel.send(response)
-
-    except Exception as e:
-        print(e)
+from funcionalities.analysemovie import analyseMovie
+from funcionalities.analyseprofile import analyseprofile
 
 
 def run_discord_bot():
@@ -64,33 +55,40 @@ def run_discord_bot():
             await ctx.send(file=picture)
         
     
+    @client.command()
+    async def movie(ctx, *args):
+        movie = ' '.join(args)
 
+        await ctx.send("Generando el análisis de la película " + movie)
+        files = analyseMovie(movie)
+        link = files.pop()
+        await ctx.send("Para más información, visitar el siguiente link: " + link)
+        for file in files:
+            with open(file, 'rb') as f:
+                picture = discord.File(f)
+                await ctx.send(file=picture)
+
+
+    @movie.error
+    async def movie_error(ctx, error):
+        await ctx.send("Error procesando la solicitud. Reinténtelo más adelante o pruebe con otra película.")
+
+    @client.command()
+    async def profile(ctx, user):
+        await ctx.send("Generando el análisis para el usuario @" + user)
+        files = analyseprofile(user)
+        for file in files:
+            try:
+                with open(file, 'rb') as f:
+                    picture = discord.File(f)
+                    await ctx.send(file=picture)
+            except:
+                pass
+
+    @profile.error
+    async def movie_error(ctx, error):
+        await ctx.send("Error procesando la solicitud. Reinténtelo más adelante o pruebe con otro usuario.")
+        await ctx.send(error)
 
     # Remember to run your bot with your personal TOKEN
     client.run(TOKEN)
-
-    
-#Utilidades de debugging de mensajes y contenidos de usuarios
-'''@client.event
-    async def on_message(message):
-        # Make sure bot doesn't get stuck in an infinite loop
-        if message.author == client.user:
-            return
-
-        # Get data about the user
-        username = str(message.author)
-        user_message = str(message.content)
-        channel = str(message.channel)
-
-        # Debug printing
-        print(f"{username} said: '{user_message}' ({channel})")
-        
-        # If the user message contains a '?' in front of the text, it becomes a private message
-        if user_message[0] == '?':
-            user_message = user_message[1:]  # [1:] Removes the '?'
-            await send_message(message, user_message, is_private=True)
-        else:
-            await send_message(message, user_message, is_private=False)
-        
-        await send_message(message, user_message, is_private=False)
-        '''

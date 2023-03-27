@@ -109,7 +109,8 @@ def versusUsers(username1, username2, df1, df2):
 
 
 def vsprofiles(username1, username2):
-
+    username1 = username1.lower()
+    username2 = username2.lower()
     check_file = os.path.isfile('funcionalities//Tweets//' + username1 + str(date.today()) + '.csv')
     if not check_file:
         TweetExtractor(username1)

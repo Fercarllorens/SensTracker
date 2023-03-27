@@ -33,6 +33,6 @@ def wordcloud(username, df):
             text = text.replace(re.sub('\W+','', word).lower(),'')
     text = text.replace('RT', '')      
     wordCloud = WordCloud(collocations= False, background_color='white').generate(text)
-    fileName = username + str(date.today()) + '.png'
+    fileName = username.split()[0] + str(date.today()) + '.png'
     wordCloud.to_file('funcionalities//WordCloud//' + fileName)
     return 'funcionalities//WordCloud//' + fileName
