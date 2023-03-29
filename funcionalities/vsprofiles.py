@@ -97,6 +97,7 @@ def versusUsers(username1, username2, df1, df2):
     scoreUser2 = dfUser2['Puntuacion']
     r = np.arange(len(days))
     width1 = 0.5
+    plt.cla()
     plt.subplot(1,1,1)
     plt.bar(r, scoreUser1, width=width1, label=username1)
     plt.bar(r + width1, scoreUser2, width=width1, label=username2)
