@@ -73,6 +73,7 @@ def run_discord_bot():
     @movie.error
     async def movie_error(ctx, error):
         await ctx.send("Error procesando la solicitud. Reinténtelo más adelante o pruebe con otra película.")
+        await ctx.send(error)
 
     @client.command(brief="Realiza un análisis de sentimientos sobre los últimos tweets publicados y noticias relacionadas con él.",
                     description="Realiza un análisis de sentimientos sobre los últimos tweets publicados y noticias relacionadas con él.")

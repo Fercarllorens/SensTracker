@@ -123,9 +123,18 @@ def analyseprofile(username, realname):
             break
     fileName = username + str(date.today()) + '.png'
     files = []
-    files.append("funcionalities//Maps//" + fileName)
-    files.append("funcionalities//GraficoSAPorTweet//" + fileName)
-    files.append("funcionalities//GraficoSAPorDia//" + fileName)
-    files.append("funcionalities//WordCloud//" + fileName)
+
+    check_file = os.path.isfile('funcionalities//Maps//' + fileName)
+    if check_file:
+        files.append("funcionalities//Maps//" + fileName)
+    check_file = os.path.isfile('funcionalities//GraficoSAPorTweet//' + fileName)
+    if check_file:
+        files.append("funcionalities//GraficoSAPorTweet//" + fileName)
+    check_file = os.path.isfile('funcionalities//GraficoSAPorDia//' + fileName)
+    if check_file:
+        files.append("funcionalities//GraficoSAPorDia//" + fileName)
+    check_file = os.path.isfile('funcionalities//WordCloud//' + fileName)
+    if check_file:
+        files.append("funcionalities//WordCloud//" + fileName)
     files.append(listNews)
     return files

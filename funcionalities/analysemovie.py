@@ -73,9 +73,15 @@ def analyseMovie(movie):
     
     #Añadimos los ficheros necesarios
     fileName = fileName + ".png"
-    files.append('funcionalities//Maps//' + fileName)
-    files.append('funcionalities//WordCloud//' + fileName)
-    files.append('funcionalities//GraficoSAPorDia//' + fileName)
+    check_file = os.path.isfile('funcionalities//Maps//' + fileName)
+    if check_file:
+        files.append('funcionalities//Maps//' + fileName)
+    check_file = os.path.isfile('funcionalities//WordCloud//' + fileName)
+    if check_file:
+        files.append('funcionalities//WordCloud//' + fileName)
+    check_file = os.path.isfile('funcionalities//GraficoSAPorDia//' + fileName)
+    if check_file:
+        files.append('funcionalities//GraficoSAPorDia//' + fileName)
 
     movie = movie.replace(' ', '+')
     response = requests.get("https://api.themoviedb.org/3/search/movie?api_key=d6c4f64b76f81594ea569e6d4b887fa4&query=" + movie)
