@@ -89,7 +89,7 @@ def camel_case_split(identifier):
             final = word
     return final
 
-def analyseprofile(username):
+def analyseprofile(username, realname):
     username = username.lower()
     
     check_file = os.path.isfile('funcionalities//Tweets//' + username + str(date.today()) + '.csv')
@@ -110,7 +110,7 @@ def analyseprofile(username):
         wordcloud(username, df)
     
     name = camel_case_split(username)
-    response = requests.get("https://newsapi.org/v2/top-headlines?apiKey=037229ddf6df4db58f835b96158bf93e&q=" + name)
+    response = requests.get("https://newsapi.org/v2/top-headlines?apiKey=037229ddf6df4db58f835b96158bf93e&q=" + realname)
     articles = response.json().get('articles')
     listNews = []
     count = 0
@@ -126,21 +126,5 @@ def analyseprofile(username):
     files.append("funcionalities//Maps//" + fileName)
     files.append("funcionalities//GraficoSAPorTweet//" + fileName)
     files.append("funcionalities//WordCloud//" + fileName)
+    files.append(listNews)
     return files
-    
-analyseprofile("joebiden")
-
-
-
-    
-    
-
-
-
-
-
-        
-    
-
-
-    

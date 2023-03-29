@@ -55,7 +55,8 @@ def run_discord_bot():
             await ctx.send(file=picture)
         
     
-    @client.command()
+    @client.command(brief="Publica un enlace con la película y un análisis de sentimientos sobre ella.",
+                    description="")
     async def movie(ctx, *args):
         movie = ' '.join(args)
 
@@ -73,10 +74,19 @@ def run_discord_bot():
     async def movie_error(ctx, error):
         await ctx.send("Error procesando la solicitud. Reinténtelo más adelante o pruebe con otra película.")
 
-    @client.command()
-    async def profile(ctx, user):
+    @client.command(brief="Realiza un análisis de sentimientos sobre los últimos tweets publicados y noticias relacionadas con él.",
+                    description="Realiza un análisis de sentimientos sobre los últimos tweets publicados y noticias relacionadas con él.")
+    async def profile(ctx, user, *realname):
+        try:
+            realname = ' '.join(realname)
+        except:
+            realname = ""
         await ctx.send("Generando el análisis para el usuario @" + user)
-        files = analyseprofile(user)
+        if realname == "":
+            files = analyseprofile(user, user)
+        else:
+            files = analyseprofile(user, realname)
+        news = files.pop()
         for file in files:
             try:
                 with open(file, 'rb') as f:
@@ -84,6 +94,14 @@ def run_discord_bot():
                     await ctx.send(file=picture)
             except:
                 pass
+        if realname == "":
+            await ctx.send("**WARNING**: no se ha especificado el nombre real del usuario. Las noticias mostradas podrían no ser las reales o no mostrar resultados.\n"
+                           + "Utilice el comando: !profile usuariotwitter Nombre Apellido")
+            realName = user
+
+        await ctx.send("Últimas noticias relacionadas con " + realname)
+        for link in news:
+            await ctx.send(link[0] + ": " + link[1])
 
     @profile.error
     async def movie_error(ctx, error):
