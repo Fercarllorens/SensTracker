@@ -125,6 +125,7 @@ def analyseprofile(username, realname):
     files = []
     files.append("funcionalities//Maps//" + fileName)
     files.append("funcionalities//GraficoSAPorTweet//" + fileName)
+    files.append("funcionalities//GraficoSAPorDia//" + fileName)
     files.append("funcionalities//WordCloud//" + fileName)
     files.append(listNews)
     return files
