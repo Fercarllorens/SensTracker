@@ -105,8 +105,7 @@ def run_discord_bot():
 
     @profile.error
     async def movie_error(ctx, error):
-        await ctx.send("Error procesando la solicitud. Reinténtelo más adelante o pruebe con otro usuario.")
-        await ctx.send(error)
+        await ctx.send("Error procesando la solicitud. Reinténtelo más adelante o pruebe con otro usuario.\nDebe ser un usuario con al menos un tweet en la última semana. Compruebe que sea un usuario activo")
 
     # Remember to run your bot with your personal TOKEN
     client.run(TOKEN)
