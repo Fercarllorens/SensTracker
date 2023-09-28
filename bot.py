@@ -7,7 +7,7 @@ from funcionalities.analyseprofile import analyseprofile
 
 
 def run_discord_bot():
-    TOKEN = 'MTA4ODIyNzg5NTQwMDQ4MDg0MA.GQx_Lb.my8UeeEQI4jHb2Tveq3x1PO43jfIetbzVdYx_U'
+    TOKEN = 'X'
     intents = discord.Intents.default()
     intents.message_content = True
     client = commands.Bot(intents=intents, command_prefix='!')
