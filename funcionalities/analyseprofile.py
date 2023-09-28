@@ -110,7 +110,7 @@ def analyseprofile(username, realname):
         wordcloud(username, df)
     
     name = camel_case_split(username)
-    response = requests.get("https://newsapi.org/v2/top-headlines?apiKey=037229ddf6df4db58f835b96158bf93e&q=" + realname)
+    response = requests.get("https://newsapi.org/v2/top-headlines?apiKey=X&q=" + realname)
     articles = response.json().get('articles')
     listNews = []
     count = 0
