@@ -84,9 +84,9 @@ def analyseMovie(movie):
         files.append('funcionalities//GraficoSAPorDia//' + fileName)
 
     movie = movie.replace(' ', '+')
-    response = requests.get("https://api.themoviedb.org/3/search/movie?api_key=d6c4f64b76f81594ea569e6d4b887fa4&query=" + movie)
+    response = requests.get("https://api.themoviedb.org/3/search/movie?api_key=X&query=" + movie)
     idMovie = response.json().get('results')[0].get('id')
-    response = requests.get("https://api.themoviedb.org/3/movie/"+ str(idMovie) +"/watch/providers?api_key=d6c4f64b76f81594ea569e6d4b887fa4")
+    response = requests.get("https://api.themoviedb.org/3/movie/"+ str(idMovie) +"/watch/providers?api_key=X")
     whereToWatchLink = response.json().get('results').get('ES')
     if whereToWatchLink is None:
         whereToWatchLink = response.json().get('results').get('US')
